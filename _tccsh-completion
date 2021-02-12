@@ -1,11 +1,17 @@
-#compdef tmux-cssh
+#compdef tcssh tmux-cssh 
+#setopt local_options xtrace
 
-_arguments '*-cs[config settings]:config_settings:->config_settings'
-
-case "$state" in
+_arguments '*-cs[session settings]:config_settings:->config_settings' '*-u[user settings]:user_settings:->user_settings' '*-ss[SSH settings]::->ssh_settings' '*-sa[Custom name session]::->ssh_settings' '*-set[Auto name session]::->ssh_settings'
+case "$state" in 
     config_settings)
         local -a cs_args
         cs_args=( $(grep -vE '\#|^$' ~/.tmux-cssh | cut -d: -f1 | tr '\n' ' ') )
         _multi_parts / cs_args
         ;;
-esac
+
+    user_settings)
+        local -a usr_args
+        usr_args=( $(cat ~/.user_tcssh/user | tr '\n' ' ') )
+        _multi_parts / usr_args
+        ;;
+ 
