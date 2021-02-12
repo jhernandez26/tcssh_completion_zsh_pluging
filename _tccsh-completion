@@ -1,0 +1,11 @@
+#compdef tmux-cssh
+
+_arguments '*-cs[config settings]:config_settings:->config_settings'
+
+case "$state" in
+    config_settings)
+        local -a cs_args
+        cs_args=( $(grep -vE '\#|^$' ~/.tmux-cssh | cut -d: -f1 | tr '\n' ' ') )
+        _multi_parts / cs_args
+        ;;
+esac
